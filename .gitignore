@@ -1,0 +1,6 @@
+node_modules
+.zedstate
+.idea
+.idea/*
+projectFilesBackup
+coverage
