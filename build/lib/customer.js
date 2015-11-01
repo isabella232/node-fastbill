@@ -19,7 +19,7 @@ Object.defineProperty(exports, '__esModule', {
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 exports.customerFactory = customerFactory;
 
@@ -36,10 +36,6 @@ var _utilsErrors = require('./utils/errors');
 var _utilsErrors2 = _interopRequireDefault(_utilsErrors);
 
 var _utilsType_handler = require('./utils/type_handler');
-
-function customerFactory(credentials) {
-    return new Customer(credentials);
-}
 
 /**
  * __init__
@@ -81,7 +77,8 @@ var Customer = (function (_FastbillAPI) {
     _createClass(Customer, [{
         key: 'get',
         value: function get(options) {
-            var vm = this;
+            var _this = this;
+
             return new Promise(function (resolve, reject) {
                 function onResult(err, resultset) {
                     if (err) {
@@ -96,8 +93,8 @@ var Customer = (function (_FastbillAPI) {
                 options = options || {};
                 (0, _utilsType_handler.typeOf)(options).mustBe('object');
 
-                vm.$request({
-                    service: vm.$scope + 'get',
+                _this.$request({
+                    service: _this.$scope + 'get',
                     filter: options.filter,
                     limit: options.limit,
                     offset: options.offset
@@ -134,7 +131,8 @@ var Customer = (function (_FastbillAPI) {
     }, {
         key: 'create',
         value: function create(customer) {
-            var vm = this;
+            var _this2 = this;
+
             return new Promise(function (resolve, reject) {
                 function onResult(err, resultset) {
                     if (err) {
@@ -149,8 +147,8 @@ var Customer = (function (_FastbillAPI) {
                 customer = customer || {};
                 (0, _utilsType_handler.typeOf)(customer).mustBe('object');
 
-                vm.$request({
-                    service: vm.$scope + 'create',
+                _this2.$request({
+                    service: _this2.$scope + 'create',
                     data: customer
                 }, onResult);
             });
@@ -181,7 +179,8 @@ var Customer = (function (_FastbillAPI) {
     }, {
         key: 'update',
         value: function update(id, modification) {
-            var vm = this;
+            var _this3 = this;
+
             return new Promise(function (resolve, reject) {
                 function onResult(err, resultset) {
                     if (err) {
@@ -198,8 +197,8 @@ var Customer = (function (_FastbillAPI) {
 
                 modification.CUSTOMER_ID = id;
 
-                vm.$request({
-                    service: vm.$scope + 'update',
+                _this3.$request({
+                    service: _this3.$scope + 'update',
                     data: modification
                 }, onResult);
             });
@@ -224,7 +223,8 @@ var Customer = (function (_FastbillAPI) {
     }, {
         key: 'remove',
         value: function remove(id) {
-            var vm = this;
+            var _this4 = this;
+
             return new Promise(function (resolve, reject) {
                 function onResult(err, resultset) {
                     if (err) {
@@ -238,8 +238,8 @@ var Customer = (function (_FastbillAPI) {
 
                 (0, _utilsType_handler.typeOf)(id).mustBe('number');
 
-                vm.$request({
-                    service: vm.$scope + 'delete',
+                _this4.$request({
+                    service: _this4.$scope + 'delete',
                     data: { CUSTOMER_ID: id }
                 }, onResult);
             });
@@ -248,3 +248,7 @@ var Customer = (function (_FastbillAPI) {
 
     return Customer;
 })(_fastbill_api.FastbillAPI);
+
+function customerFactory(credentials) {
+    return new Customer(credentials);
+}

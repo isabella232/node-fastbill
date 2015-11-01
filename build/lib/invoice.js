@@ -18,7 +18,7 @@ Object.defineProperty(exports, '__esModule', {
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 exports.invoiceFactory = invoiceFactory;
 
@@ -31,10 +31,6 @@ var _fastbill_api = require('./fastbill_api');
 var _utilsType_handler = require('./utils/type_handler');
 
 var _utilsErrors = require('./utils/errors');
-
-function invoiceFactory(credentials) {
-    return new Invoice(credentials);
-}
 
 /**
  * The Invoice broker which abstracts from the
@@ -77,7 +73,8 @@ var Invoice = (function (_FastbillAPI) {
     _createClass(Invoice, [{
         key: 'get',
         value: function get(options) {
-            var vm = this;
+            var _this = this;
+
             return new Promise(function (resolve, reject) {
                 function onResult(err, resultset) {
                     if (err) {
@@ -93,8 +90,8 @@ var Invoice = (function (_FastbillAPI) {
 
                 (0, _utilsType_handler.typeOf)(options).mustBe('object');
 
-                vm.$request({
-                    service: vm.$scope + 'get',
+                _this.$request({
+                    service: _this.$scope + 'get',
                     filter: options.filter,
                     limit: options.limit,
                     offset: options.offset
@@ -145,7 +142,8 @@ var Invoice = (function (_FastbillAPI) {
     }, {
         key: 'create',
         value: function create(invoice) {
-            var vm = this;
+            var _this2 = this;
+
             return new Promise(function (resolve, reject) {
                 function onResult(err, resultset) {
                     if (err) {
@@ -164,8 +162,8 @@ var Invoice = (function (_FastbillAPI) {
                 (0, _utilsType_handler.typeOf)(invoice.ITEMS).mustBe('object');
                 (0, _utilsType_handler.typeOf)(invoice.CUSTOMER_ID).mustBe('number');
 
-                vm.$request({
-                    service: vm.$scope + 'create',
+                _this2.$request({
+                    service: _this2.$scope + 'create',
                     data: invoice
                 }, onResult);
             });
@@ -195,7 +193,8 @@ var Invoice = (function (_FastbillAPI) {
     }, {
         key: 'update',
         value: function update(id, invoice) {
-            var vm = this;
+            var _this3 = this;
+
             return new Promise(function (resolve, reject) {
                 function onResult(err, resultset) {
                     if (err) {
@@ -212,8 +211,8 @@ var Invoice = (function (_FastbillAPI) {
                 (0, _utilsType_handler.typeOf)(invoice).mustBe('object');
                 invoice.INVOICE_ID = id;
 
-                vm.$request({
-                    service: vm.$scope + 'update',
+                _this3.$request({
+                    service: _this3.$scope + 'update',
                     data: invoice
                 }, onResult);
             });
@@ -237,7 +236,8 @@ var Invoice = (function (_FastbillAPI) {
     }, {
         key: 'remove',
         value: function remove(id) {
-            var vm = this;
+            var _this4 = this;
+
             return new Promise(function (resolve, reject) {
                 function onResult(err, resultset) {
                     if (err) {
@@ -252,8 +252,8 @@ var Invoice = (function (_FastbillAPI) {
 
                 (0, _utilsType_handler.typeOf)(id).mustBe('number');
 
-                vm.$request({
-                    service: vm.$scope + 'delete',
+                _this4.$request({
+                    service: _this4.$scope + 'delete',
                     data: { INVOICE_ID: id }
                 }, onResult);
             });
@@ -279,7 +279,8 @@ var Invoice = (function (_FastbillAPI) {
     }, {
         key: 'complete',
         value: function complete(id, callback) {
-            var vm = this;
+            var _this5 = this;
+
             return new Promise(function (resolve, reject) {
                 function onResult(err, resultset) {
                     if (err) {
@@ -291,8 +292,8 @@ var Invoice = (function (_FastbillAPI) {
                     resolve(resultset.INVOICE_NUMBER);
                 }
 
-                vm.$request({
-                    service: vm.$scope + 'complete',
+                _this5.$request({
+                    service: _this5.$scope + 'complete',
                     data: { INVOICE_ID: id }
                 }, onResult);
             });
@@ -316,7 +317,8 @@ var Invoice = (function (_FastbillAPI) {
     }, {
         key: 'cancel',
         value: function cancel(id) {
-            var vm = this;
+            var _this6 = this;
+
             return new Promise(function (resolve, reject) {
                 function onResult(err, resultset) {
                     if (err) {
@@ -330,8 +332,8 @@ var Invoice = (function (_FastbillAPI) {
 
                 (0, _utilsType_handler.typeOf)(id).mustBe('number');
 
-                vm.$request({
-                    service: vm.$scope + 'cancel',
+                _this6.$request({
+                    service: _this6.$scope + 'cancel',
                     data: { INVOICE_ID: id }
                 }, onResult);
             });
@@ -359,7 +361,8 @@ var Invoice = (function (_FastbillAPI) {
     }, {
         key: 'sign',
         value: function sign(id) {
-            var vm = this;
+            var _this7 = this;
+
             return new Promise(function (resolve, reject) {
                 function onResult(err, resultset) {
                     if (err) {
@@ -373,8 +376,8 @@ var Invoice = (function (_FastbillAPI) {
 
                 (0, _utilsType_handler.typeOf)(id).mustBe('number');
 
-                vm.$request({
-                    service: vm.$scope + 'sign',
+                _this7.$request({
+                    service: _this7.$scope + 'sign',
                     data: { INVOICE_ID: id }
                 }, onResult);
             });
@@ -399,7 +402,8 @@ var Invoice = (function (_FastbillAPI) {
     }, {
         key: 'setpaid',
         value: function setpaid(id, paidDate) {
-            var vm = this;
+            var _this8 = this;
+
             return new Promise(function (resolve, reject) {
                 function onResult(err, resultset) {
                     if (err) {
@@ -415,8 +419,8 @@ var Invoice = (function (_FastbillAPI) {
 
                 paidDate = paidDate || null;
 
-                vm.$request({
-                    service: vm.$scope + 'setpaid',
+                _this8.$request({
+                    service: _this8.$scope + 'setpaid',
                     data: {
                         INVOICE_ID: id,
                         PAID_DATE: paidDate
@@ -428,3 +432,7 @@ var Invoice = (function (_FastbillAPI) {
 
     return Invoice;
 })(_fastbill_api.FastbillAPI);
+
+function invoiceFactory(credentials) {
+    return new Invoice(credentials);
+}

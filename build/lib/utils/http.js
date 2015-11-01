@@ -42,15 +42,15 @@ var _errors2 = _interopRequireDefault(_errors);
 
 /**
  * Comfortable wrapper for performing a HTTP POST request.
- * 
+ *
  * Possible options:
- * 
+ *
  *     uri: {string}
  *     headers: {object}
  *     data: {string}
- * 
+ *
  * @param {object} options Possible request options
- * 
+ *
  */
 
 function post(options) {
@@ -63,7 +63,7 @@ function post(options) {
         params.method = 'POST';
         params.headers = options.headers;
 
-        request = ('https:' === params.protocol ? _https2['default'] : _http2['default']).request(params, function onResponse(response) {
+        request = (params.protocol === 'https:' ? _https2['default'] : _http2['default']).request(params, function onResponse(response) {
             var body = '';
 
             response.on('data', function onData(data) {
@@ -77,12 +77,12 @@ function post(options) {
         });
 
         request.on('error', function onError(err) {
-            console.log(err);
             return reject(new _errors2['default'].FastbillConnectionError({
                 message: 'Communication error.',
                 detail: err
             }));
         });
+
         request.write(options.data || '');
         request.end();
     });
