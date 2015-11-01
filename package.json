@@ -1,6 +1,6 @@
 {
   "name": "node-fastbill",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A nodeJS client wrapper for the fastbill API",
   "main": "index.js",
   "scripts": {
