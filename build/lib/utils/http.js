@@ -13,12 +13,10 @@
 
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.post = post;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var _http = require('http');
 
@@ -32,13 +30,11 @@ var _url = require('url');
 
 var _url2 = _interopRequireDefault(_url);
 
-var _bluebird = require('bluebird');
-
-var _bluebird2 = _interopRequireDefault(_bluebird);
-
 var _errors = require('./errors');
 
 var _errors2 = _interopRequireDefault(_errors);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Comfortable wrapper for performing a HTTP POST request.
@@ -55,16 +51,16 @@ var _errors2 = _interopRequireDefault(_errors);
 
 function post(options) {
     return new Promise(function (resolve, reject) {
-        var params = undefined;
-        var request = undefined;
+        let params;
+        let request;
 
         options.uri = options.uri || '';
-        params = _url2['default'].parse(options.uri);
+        params = _url2.default.parse(options.uri);
         params.method = 'POST';
         params.headers = options.headers;
 
-        request = (params.protocol === 'https:' ? _https2['default'] : _http2['default']).request(params, function onResponse(response) {
-            var body = '';
+        request = (params.protocol === 'https:' ? _https2.default : _http2.default).request(params, function onResponse(response) {
+            let body = '';
 
             response.on('data', function onData(data) {
                 body = body + data.toString();
@@ -77,7 +73,7 @@ function post(options) {
         });
 
         request.on('error', function onError(err) {
-            return reject(new _errors2['default'].FastbillConnectionError({
+            return reject(new _errors2.default.FastbillConnectionError({
                 message: 'Communication error.',
                 detail: err
             }));

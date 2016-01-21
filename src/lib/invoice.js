@@ -259,7 +259,7 @@ class Invoice extends FastbillAPI {
      *
      */
 
-    complete(id, callback) {
+    complete(id) {
         return new Promise((resolve, reject) => {
             function onResult(err, resultset) {
                 if (err) {

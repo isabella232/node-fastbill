@@ -14,7 +14,7 @@
 
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.instantiate = instantiate;
@@ -23,7 +23,7 @@ var _customer = require('./customer');
 
 var _invoice = require('./invoice');
 
-var _utilsType_handler = require('./utils/type_handler');
+var _type_handler = require('./utils/type_handler');
 
 /**
  * Creates a FastBill communication object that provides the access to all
@@ -42,7 +42,7 @@ var _utilsType_handler = require('./utils/type_handler');
 
 function instantiate(credentials) {
 
-  (0, _utilsType_handler.typeOf)(credentials).mustBe('object');
+  (0, _type_handler.typeOf)(credentials).mustBe('object');
 
   return {
     customer: (0, _customer.customerFactory)(credentials),

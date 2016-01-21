@@ -1,6 +1,0 @@
-specs
-.jshintrc
-.travis.yml
-.zedstate
-.pre-commit
-gulpfile.js
