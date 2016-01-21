@@ -1,6 +1,6 @@
 {
   "name": "node-fastbill",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A nodeJS client wrapper for the fastbill API",
   "main": "index.js",
   "repository": {
@@ -21,7 +21,6 @@
     "url": "https://github.com/veyo-care/node-fastbill/issues"
   },
   "homepage": "https://github.com/veyo-care/node-fastbill",
-
   "scripts": {
     "test": "mocha --recursive --compilers js:babel-register test",
     "build": "npm run clean && babel src --out-dir build",
