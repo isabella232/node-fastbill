@@ -1,28 +1,33 @@
 {
-  "name": "@veyo/veyo-node-sql-utils",
-  "version": "1.1.0",
-  "description": "SQL related javascript utilities.",
+  "name": "node-fastbill",
+  "version": "1.0.0",
+  "description": "A nodeJS client wrapper for the fastbill API",
   "main": "index.js",
-  "directories": {
-    "test": "test"
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:veyo-care/node-fastbill.git"
   },
+  "keywords": [
+    "fastbill",
+    "fastbill-automatic",
+    "automatic",
+    "api",
+    "client",
+    "abstraction"
+  ],
+  "author": "Maximilian Greschke <maximilian.greschke@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/veyo-care/node-fastbill/issues"
+  },
+  "homepage": "https://github.com/veyo-care/node-fastbill",
+
   "scripts": {
     "test": "mocha --recursive --compilers js:babel-register test",
     "build": "npm run clean && babel src --out-dir build",
     "clean": "rm -r build || true",
     "lint": "eslint ."
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/veyo-care/veyo-node-sql-utils.git"
-  },
-  "author": "Veyo Care GmbH",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/veyo-care/veyo-node-sql-utils/issues"
-  },
-  "homepage": "https://github.com/veyo-care/veyo-node-sql-utils#readme",
-  "dependencies": {},
   "devDependencies": {
     "babel-cli": "^6.3.17",
     "babel-core": "^5.8.34",
