@@ -1,6 +1,6 @@
 {
   "name": "@veyo/veyo-node-sql-utils",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "SQL related javascript utilities.",
   "main": "index.js",
   "directories": {
