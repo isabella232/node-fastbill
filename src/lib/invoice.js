@@ -450,10 +450,10 @@ class Invoice extends FastbillAPI {
         typeOf(message).mustBe('object');
         typeOf(message.recipient).mustBe('string');
 
-        let recipient = message.recipient || null;
-        let subject = message.subject || null;
-        let text = message.text || null;
-        let receipt_confirmation = message.receipt_confirmation || null;
+        let recipient = message.recipient;
+        let subject = message.subject;
+        let text = message.text;
+        let receipt_confirmation = message.receipt_confirmation;
 
         this.$request({
             service: this.$scope + 'sendbyemail',
