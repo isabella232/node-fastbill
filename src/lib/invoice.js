@@ -421,7 +421,9 @@ class Invoice extends FastbillAPI {
      *
      * Usage:
      *   var message = {
-     *      recipient: , # required!
+     *      recipient: {
+     *       TO: 'customer@mail.com'  // required
+     *      },
      *      subject: ,
      *      text: ,
      *      receipt_confirmation
@@ -446,18 +448,16 @@ class Invoice extends FastbillAPI {
             resolve(resultset.INVOICE_NUMBER);
         }
 
-        console.log('check typeofs');
         typeOf(id).mustBe('number');
         typeOf(message).mustBe('object');
-        typeOf(message.recipient).mustBe('string');
+        typeOf(message.recipient).mustBe('object');
+        typeOf(message.recipient.to).mustBe('object');
 
-        console.log('set variables');
         let recipient = message.recipient;
         let subject = message.subject;
         let text = message.text;
         let receipt_confirmation = message.receipt_confirmation;
 
-        console.log('start request');
         this.$request({
             service: this.$scope + 'sendbyemail',
             data: {

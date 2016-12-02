@@ -400,7 +400,9 @@ class Invoice extends _fastbill_api.FastbillAPI {
      *
      * Usage:
      *   var message = {
-     *      recipient: , # required!
+     *      recipient: {
+     *       TO: 'customer@mail.com'  // required
+     *      },
      *      subject: ,
      *      text: ,
      *      receipt_confirmation
@@ -425,7 +427,8 @@ class Invoice extends _fastbill_api.FastbillAPI {
 
             (0, _type_handler.typeOf)(id).mustBe('number');
             (0, _type_handler.typeOf)(message).mustBe('object');
-            (0, _type_handler.typeOf)(message.recipient).mustBe('string');
+            (0, _type_handler.typeOf)(message.recipient).mustBe('object');
+            (0, _type_handler.typeOf)(message.recipient.to).mustBe('object');
 
             let recipient = message.recipient;
             let subject = message.subject;
