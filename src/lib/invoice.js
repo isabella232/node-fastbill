@@ -451,7 +451,7 @@ class Invoice extends FastbillAPI {
         typeOf(id).mustBe('number');
         typeOf(message).mustBe('object');
         typeOf(message.recipient).mustBe('object');
-        typeOf(message.recipient.to).mustBe('object');
+        typeOf(message.recipient.to).mustBe('string');
 
         let recipient = message.recipient;
         let subject = message.subject;

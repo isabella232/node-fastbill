@@ -321,19 +321,23 @@ describe('The FastbillAPIs Invoice Interface', function () {
 
               });
 
-            let id = 1;
-            var message = {
-              recipient: 'someone@somewhere.com',
-              subject: 'this is a test',
-              text: 'hello someone, your invoice is ready!' ,
-              receipt_confirmation: 1
-            }
+            let id = Number(1);
+            let message = {
+                recipient: {
+                    to: 'something@somewhere.com'
+                },
+                subject: 'subject',
+                text: 'body text',
+                receipt_confirmation: Number(1)
+            };
+
             let promise = fastbill.invoice.sendbyemail(id, message);
 
             promise.then(function (result) {
-                expect(result).to.equal(id);
+                assert(result == true);
                 done();
             }, function (err) {
+                console.log(err);
                 done(
                   new Error('Promise should be resolved')
                 );

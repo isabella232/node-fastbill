@@ -23,6 +23,8 @@ var _customer = require('./customer');
 
 var _invoice = require('./invoice');
 
+var _template = require('./template');
+
 var _type_handler = require('./utils/type_handler');
 
 /**
@@ -46,6 +48,7 @@ function instantiate(credentials) {
 
   return {
     customer: (0, _customer.customerFactory)(credentials),
-    invoice: (0, _invoice.invoiceFactory)(credentials)
+    invoice: (0, _invoice.invoiceFactory)(credentials),
+    template: (0, _template.templateFactory)(credentials)
   };
 }

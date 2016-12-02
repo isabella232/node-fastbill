@@ -16,6 +16,7 @@
 
 import {customerFactory} from './customer';
 import {invoiceFactory} from './invoice';
+import {templateFactory} from './template';
 import {typeOf} from './utils/type_handler';
 
 /**
@@ -39,6 +40,7 @@ export function instantiate(credentials) {
 
     return {
         customer: customerFactory(credentials),
-        invoice: invoiceFactory(credentials)
+        invoice: invoiceFactory(credentials),
+        template: templateFactory(credentials)
     };
 }
