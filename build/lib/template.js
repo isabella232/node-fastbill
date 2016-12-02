@@ -56,7 +56,7 @@ class Template extends _fastbill_api.FastbillAPI {
                         detail: err
                     }));
                 }
-                resolve(resultset.INVOICES);
+                resolve(resultset.TEMPLATES);
             }
 
             this.$request({

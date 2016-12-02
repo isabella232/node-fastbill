@@ -50,8 +50,6 @@ class Template extends FastbillAPI {
     get() {
         return new Promise((resolve, reject) => {
             function onResult(err, resultset) {
-                console.log("uuuh, got result from template.get");
-                console.log(resultset);
                 if (err) {
                     return reject(
                         new FastbillInvalidRequestError({
@@ -60,7 +58,6 @@ class Template extends FastbillAPI {
                         })
                     );
                 }
-                console.log(resultset);
                 resolve(resultset.TEMPLATES);
             }
 
