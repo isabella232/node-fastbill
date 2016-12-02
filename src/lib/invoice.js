@@ -410,6 +410,65 @@ class Invoice extends FastbillAPI {
         });
     }
 
+
+    /**
+     * Invoice#sendbyemail
+     *
+     * Sends an invoice per email
+     * returns status
+     *
+     * See: https://www.fastbill.com/api/fastbill/de/invoice.html#invoice.sendbypost
+     *
+     * Usage:
+     *   var message = {
+     *      recipient: , # required!
+     *      subject: ,
+     *      text: ,
+     *      receipt_confirmation
+     *   }
+     *   fastbill.Invoice.sendbyemail(1, message).then(...).catch(...)
+     *
+     * @param {number} id The id of the Invoice that should be sent
+     * @param {object} message The message data to be sent
+     */
+    sendbyemail(id, message) {
+
+        return new Promise((resolve, reject) => {
+              function onResult(err, resultset) {
+            if (err) {
+                return reject(
+                  new FastbillInvalidRequestError({
+                      message: 'Invalid Request to Fastbill.',
+                      detail: err
+                  })
+                );
+            }
+            resolve(resultset.INVOICE_NUMBER);
+        }
+
+        typeOf(id).mustBe('number');
+        typeOf(message).mustBe('object');
+        typeOf(message.recipient).mustBe('string');
+
+        let recipient = message.recipient || null;
+        let subject = message.subject || null;
+        let text = message.text || null;
+        let receipt_confirmation = message.receipt_confirmation || null;
+
+        this.$request({
+            service: this.$scope + 'sendbyemail',
+            data: {
+                INVOICE_ID: id,
+                RECIPIENT : recipient,
+                SUBJECT: subject,
+                MESSAGE: text,
+                RECEIPT_CONFIRMATION: receipt_confirmation
+            }
+        }, onResult);
+    });
+    }
+
+
 }
 
 export function invoiceFactory(credentials) {

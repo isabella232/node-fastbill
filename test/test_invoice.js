@@ -302,4 +302,43 @@ describe('The FastbillAPIs Invoice Interface', function () {
         });
     });
 
+    describe('Invoice.sendbyemail', function () {
+        it('should be defined', function () {
+            expect(fastbill.invoice.constructor.prototype.hasOwnProperty('sendbyemail')).to.equal(true);
+        });
+
+
+        it('should not respond with an error', function (done) {
+
+            // set up mock response
+            nock(fastbill.invoice.$uri)
+              .post('')
+              .reply(200, {
+                  RESPONSE: {
+                      INVOICE_NUMBER: 1,
+                      ERRORS: null
+                  }
+
+              });
+
+            let id = 1;
+            var message = {
+              recipient: 'someone@somewhere.com',
+              subject: 'this is a test',
+              text: 'hello someone, your invoice is ready!' ,
+              receipt_confirmation: 1
+            }
+            let promise = fastbill.invoice.sendbyemail(id, message);
+
+            promise.then(function (result) {
+                expect(result).to.equal(id);
+                done();
+            }, function (err) {
+                done(
+                  new Error('Promise should be resolved')
+                );
+            });
+        });
+    });
+
 });
