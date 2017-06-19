@@ -38,6 +38,10 @@ describe('The API Wrapper Object', function () {
 
         expect(fastbill.invoice).to.exist;
         expect(fastbill.invoice.constructor.name).to.equal('Invoice');
+
+        expect(fastbill.template).to.exist;
+        expect(fastbill.template.constructor.name).to.equal('Template');
+
     });
     
     it('should throw an error when no credentials are passed for instantiation', function () {
