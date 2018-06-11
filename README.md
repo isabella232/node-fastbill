@@ -12,7 +12,7 @@ Last tested on node v5.3.0
 
 # available methods
 
-The module exposes API functionality for customers, invoices and subscriptions.
+The module exposes API functionality for customers, invoices, projects and subscriptions.
 Access through fastbill.customer and fastbill.invoice (like in the example below).
 
 # first example
@@ -52,10 +52,10 @@ Access through fastbill.customer and fastbill.invoice (like in the example below
 npm install
 ```
 
-3. Install babel
+3. Transpile build
 
 ```
-npm install babel -g
+npm run build
 ```
 
 4. Run tests
@@ -64,8 +64,8 @@ npm install babel -g
 npm test
 ```
 
-5. Run ESLint
+5. Run ESLint (broken)
 
 ```
-npm lint
+npm run lint
 ```
