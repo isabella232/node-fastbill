@@ -18,7 +18,7 @@ import Error from './utils/errors';
 
 export class FastbillAPI {
     constructor(credentials) {
-        let auth = new Buffer(`${credentials.email}:${credentials.apikey}`)
+        let auth = Buffer.from(`${credentials.email}:${credentials.apikey}`)
             .toString('base64');
         this.$uri = 'https://my.fastbill.com/api/1.0/api.php';
         this.$headers = {
