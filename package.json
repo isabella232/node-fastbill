@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/veyo-care/node-fastbill",
   "scripts": {
-    "test": "mocha --recursive --compilers js:babel-register test",
+    "test": "mocha --recursive --require babel-core/register test",
     "build": "npm run clean && babel src --out-dir build",
     "clean": "rm -r build || true",
     "lint": "eslint ."
