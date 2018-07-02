@@ -15,7 +15,7 @@
 
 'use strict';
 
-var
+let
     config = require('./config'),
     fastbill = require('../index').instantiate(
         {
@@ -32,13 +32,14 @@ fastbill.customer.create(
         CUSTOMER_TYPE: 'consumer',
         FIRST_NAME: 'Max',
         LAST_NAME: 'Michael'
-    }, function(err, data){
-        if (err) throw new Error('Customer creation failed');
+    }, function (err, data) {
+        if (err) {
+throw new Error('Customer creation failed');
+}
 
         // 2. create an invoice
-       //TODO: continue example
+       // TODO: continue example
 
     });
-
 
 

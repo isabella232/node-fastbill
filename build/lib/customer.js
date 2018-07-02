@@ -61,27 +61,22 @@ class Customer extends _fastbill_api.FastbillAPI {
      *
      */
 
-    get(options) {
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
-                resolve(resultset.CUSTOMERS);
-            }
+    get() {
+        let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-            options = options || {};
+        try {
             (0, _type_handler.typeOf)(options).mustBe('object');
+        } catch (err) {
+            return Promise.reject(err);
+        }
 
-            this.$request({
-                service: this.$scope + 'get',
-                filter: options.filter,
-                limit: options.limit,
-                offset: options.offset
-            }, onResult);
+        return this.$request({
+            service: this.$scope + 'get',
+            filter: options.filter,
+            limit: options.limit,
+            offset: options.offset
+        }).then(res => {
+            return res.CUSTOMERS;
         });
     }
 
@@ -111,25 +106,20 @@ class Customer extends _fastbill_api.FastbillAPI {
      *
      */
 
-    create(customer) {
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
-                resolve(resultset.CUSTOMER_ID);
-            }
+    create() {
+        let customer = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-            customer = customer || {};
+        try {
             (0, _type_handler.typeOf)(customer).mustBe('object');
+        } catch (err) {
+            return Promise.reject(err);
+        }
 
-            this.$request({
-                service: this.$scope + 'create',
-                data: customer
-            }, onResult);
+        return this.$request({
+            service: this.$scope + 'create',
+            data: customer
+        }).then(res => {
+            return res.CUSTOMER_ID;
         });
     }
 
@@ -156,26 +146,20 @@ class Customer extends _fastbill_api.FastbillAPI {
      */
 
     update(id, modification) {
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
-                resolve(true);
-            }
-
+        try {
             (0, _type_handler.typeOf)(id).mustBe('number');
             (0, _type_handler.typeOf)(modification).mustBe('object');
+        } catch (err) {
+            return Promise.reject(err);
+        }
 
-            modification.CUSTOMER_ID = id;
+        modification.CUSTOMER_ID = id;
 
-            this.$request({
-                service: this.$scope + 'update',
-                data: modification
-            }, onResult);
+        return this.$request({
+            service: this.$scope + 'update',
+            data: modification
+        }).then(() => {
+            return true;
         });
     }
 
@@ -196,26 +180,21 @@ class Customer extends _fastbill_api.FastbillAPI {
      */
 
     remove(id) {
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
-                resolve(true);
-            }
-
+        try {
             (0, _type_handler.typeOf)(id).mustBe('number');
+        } catch (err) {
+            return Promise.reject(err);
+        }
 
-            this.$request({
-                service: this.$scope + 'delete',
-                data: { CUSTOMER_ID: id }
-            }, onResult);
+        return this.$request({
+            service: this.$scope + 'delete',
+            data: {
+                CUSTOMER_ID: id
+            }
+        }).then(() => {
+            return true;
         });
     }
-
 }
 
 function customerFactory(credentials) {

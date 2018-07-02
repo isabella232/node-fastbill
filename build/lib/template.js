@@ -19,8 +19,6 @@ exports.templateFactory = templateFactory;
 
 var _fastbill_api = require('./fastbill_api');
 
-var _type_handler = require('./utils/type_handler');
-
 var _errors = require('./utils/errors');
 
 /**
@@ -48,20 +46,15 @@ class Template extends _fastbill_api.FastbillAPI {
      */
 
     get() {
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
-                resolve(resultset.TEMPLATES);
-            }
-
-            this.$request({
-                service: this.$scope + 'get'
-            }, onResult);
+        return this.$request({
+            service: this.$scope + 'get'
+        }).then(res => {
+            return res.TEMPLATES;
+        }).catch(err => {
+            throw new _errors.FastbillInvalidRequestError({
+                message: 'Invalid Request to Fastbill.',
+                detail: err
+            });
         });
     }
 }

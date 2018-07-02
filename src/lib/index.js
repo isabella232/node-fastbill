@@ -43,6 +43,6 @@ export function instantiate(credentials) {
         customer: customerFactory(credentials),
         invoice: invoiceFactory(credentials),
         template: templateFactory(credentials),
-        project: projectFactory(credentials),
+        project: projectFactory(credentials)
     };
 }

@@ -39,13 +39,13 @@ class FastbillError extends ExtendableError {
 }
 
 exports.FastbillError = FastbillError;
-class FastbilValueError extends ExtendableError {
+class FastbillValueError extends ExtendableError {
     constructor(message) {
         super(message);
     }
 }
 
-exports.FastbilValueError = FastbilValueError;
+exports.FastbillValueError = FastbillValueError;
 class FastbillTypeError extends ExtendableError {
     constructor(message) {
         super(message);

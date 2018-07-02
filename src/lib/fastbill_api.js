@@ -14,7 +14,7 @@
 'use strict';
 
 import {post} from './utils/http';
-import Error from './utils/errors';
+import { FastbillInvalidRequestError } from './utils/errors';
 
 export class FastbillAPI {
     constructor(credentials) {
@@ -31,38 +31,35 @@ export class FastbillAPI {
      * Performs a HTTP request against the FastBill API.
      *
      * @param {object} payload The request pattern (e.g. filter, data, service, etc.)
-     * @param {function} callback Error-first callback (err, parsedResultSet)
      *
      */
 
-    $request(payload, callback) {
+    $request(payload) {
         let options = {
             uri: this.$uri,
             headers: this.$headers,
             data: payload && JSON.stringify(payload)
         };
 
-        post(options)
-            .then(function (data) {
+        return post(options)
+            .then(function (json) {
+                let data;
+
                 try {
-                    data = JSON.parse(data).RESPONSE;
+                    data = JSON.parse(json).RESPONSE;
                 } catch (e) {
-                    return callback(
-                        new Error.FastbillInvalidRequestError({
-                            message: 'Unable to parse response',
-                            detail: e
-                        }));
+                    throw new FastbillInvalidRequestError({
+                        message: 'Unable to parse response',
+                        detail: e
+                    });
                 }
 
                 // Check if the FastBill API responds with errors
                 // If so, create an error object with the first available error message.
                 if (data.ERRORS) {
-                    return callback(new Error(data.ERRORS[0]));
+                    throw new Error(data.ERRORS[0]);
                 }
-                callback(null, data);
-            })
-            .catch(function (err) {
-                return callback(err, null);
+                return data;
             });
     }
 }

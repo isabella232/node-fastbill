@@ -35,7 +35,7 @@ export class FastbillError extends ExtendableError {
     }
 }
 
-export class FastbilValueError extends ExtendableError {
+export class FastbillValueError extends ExtendableError {
     constructor(message) {
         super(message);
     }

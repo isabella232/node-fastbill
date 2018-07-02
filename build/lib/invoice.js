@@ -57,28 +57,23 @@ class Invoice extends _fastbill_api.FastbillAPI {
      *
      */
 
-    get(options) {
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
-                resolve(resultset.INVOICES);
-            }
+    get() {
+        let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-            options = options || {};
+        (0, _type_handler.typeOf)(options).mustBe('object');
 
-            (0, _type_handler.typeOf)(options).mustBe('object');
-
-            this.$request({
-                service: this.$scope + 'get',
-                filter: options.filter,
-                limit: options.limit,
-                offset: options.offset
-            }, onResult);
+        return this.$request({
+            service: this.$scope + 'get',
+            filter: options.filter,
+            limit: options.limit,
+            offset: options.offset
+        }).then(res => {
+            return res.INVOICES;
+        }).catch(err => {
+            throw new _errors.FastbillInvalidRequestError({
+                message: 'Invalid Request to Fastbill.',
+                detail: err
+            });
         });
     }
 
@@ -122,30 +117,23 @@ class Invoice extends _fastbill_api.FastbillAPI {
      *
      */
 
-    create(invoice) {
+    create() {
+        let invoice = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
+        (0, _type_handler.typeOf)(invoice).mustBe('object');
+        (0, _type_handler.typeOf)(invoice.ITEMS).mustBe('object');
+        (0, _type_handler.typeOf)(invoice.CUSTOMER_ID).mustBe('number');
 
-                resolve(resultset.INVOICE_ID);
-            }
-
-            invoice = invoice || {};
-
-            (0, _type_handler.typeOf)(invoice).mustBe('object');
-            (0, _type_handler.typeOf)(invoice.ITEMS).mustBe('object');
-            (0, _type_handler.typeOf)(invoice.CUSTOMER_ID).mustBe('number');
-
-            this.$request({
-                service: this.$scope + 'create',
-                data: invoice
-            }, onResult);
+        return this.$request({
+            service: this.$scope + 'create',
+            data: invoice
+        }).then(res => {
+            return res.INVOICE_ID;
+        }).catch(err => {
+            throw new _errors.FastbillInvalidRequestError({
+                message: 'Invalid Request to Fastbill.',
+                detail: err
+            });
         });
     }
 
@@ -171,27 +159,20 @@ class Invoice extends _fastbill_api.FastbillAPI {
      */
 
     update(id, invoice) {
+        (0, _type_handler.typeOf)(id).mustBe('number');
+        (0, _type_handler.typeOf)(invoice).mustBe('object');
+        invoice.INVOICE_ID = id;
 
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
-
-                resolve(true);
-            }
-
-            (0, _type_handler.typeOf)(id).mustBe('number');
-            (0, _type_handler.typeOf)(invoice).mustBe('object');
-            invoice.INVOICE_ID = id;
-
-            this.$request({
-                service: this.$scope + 'update',
-                data: invoice
-            }, onResult);
+        return this.$request({
+            service: this.$scope + 'update',
+            data: invoice
+        }).then(res => {
+            return true;
+        }).catch(err => {
+            throw new _errors.FastbillInvalidRequestError({
+                message: 'Invalid Request to Fastbill.',
+                detail: err
+            });
         });
     }
 
@@ -211,25 +192,20 @@ class Invoice extends _fastbill_api.FastbillAPI {
      */
 
     remove(id) {
+        (0, _type_handler.typeOf)(id).mustBe('number');
 
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
-
-                resolve(true);
+        return this.$request({
+            service: this.$scope + 'delete',
+            data: {
+                INVOICE_ID: id
             }
-
-            (0, _type_handler.typeOf)(id).mustBe('number');
-
-            this.$request({
-                service: this.$scope + 'delete',
-                data: { INVOICE_ID: id }
-            }, onResult);
+        }).then(() => {
+            return true;
+        }).catch(err => {
+            throw new _errors.FastbillInvalidRequestError({
+                message: 'Invalid Request to Fastbill.',
+                detail: err
+            });
         });
     }
 
@@ -251,21 +227,20 @@ class Invoice extends _fastbill_api.FastbillAPI {
      */
 
     complete(id) {
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
-                resolve(resultset.INVOICE_NUMBER);
-            }
+        (0, _type_handler.typeOf)(id).mustBe('number');
 
-            this.$request({
-                service: this.$scope + 'complete',
-                data: { INVOICE_ID: id }
-            }, onResult);
+        return this.$request({
+            service: this.$scope + 'complete',
+            data: {
+                INVOICE_ID: id
+            }
+        }).then(res => {
+            return res.INVOICE_NUMBER;
+        }).catch(err => {
+            throw new _errors.FastbillInvalidRequestError({
+                message: 'Invalid Request to Fastbill.',
+                detail: err
+            });
         });
     }
 
@@ -285,24 +260,20 @@ class Invoice extends _fastbill_api.FastbillAPI {
      *
      */
     cancel(id) {
+        (0, _type_handler.typeOf)(id).mustBe('number');
 
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
-                resolve(resultset.INVOICE_NUMBER);
+        return this.$request({
+            service: this.$scope + 'cancel',
+            data: {
+                INVOICE_ID: id
             }
-
-            (0, _type_handler.typeOf)(id).mustBe('number');
-
-            this.$request({
-                service: this.$scope + 'cancel',
-                data: { INVOICE_ID: id }
-            }, onResult);
+        }).then(res => {
+            return res.INVOICE_NUMBER;
+        }).catch(err => {
+            throw new _errors.FastbillInvalidRequestError({
+                message: 'Invalid Request to Fastbill.',
+                detail: err
+            });
         });
     }
 
@@ -326,24 +297,20 @@ class Invoice extends _fastbill_api.FastbillAPI {
      */
 
     sign(id) {
+        (0, _type_handler.typeOf)(id).mustBe('number');
 
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
-                resolve(resultset.REMAINING_CREDITS);
+        return this.$request({
+            service: this.$scope + 'sign',
+            data: {
+                INVOICE_ID: id
             }
-
-            (0, _type_handler.typeOf)(id).mustBe('number');
-
-            this.$request({
-                service: this.$scope + 'sign',
-                data: { INVOICE_ID: id }
-            }, onResult);
+        }).then(res => {
+            return res.REMAINING_CREDITS;
+        }).catch(err => {
+            throw new _errors.FastbillInvalidRequestError({
+                message: 'Invalid Request to Fastbill.',
+                detail: err
+            });
         });
     }
 
@@ -363,30 +330,24 @@ class Invoice extends _fastbill_api.FastbillAPI {
      * @param {date} paidDate the date when the invoice was paid
      */
 
-    setpaid(id, paidDate) {
+    setpaid(id) {
+        let paidDate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
-                resolve(resultset.INVOICE_NUMBER);
+        (0, _type_handler.typeOf)(id).mustBe('number');
+
+        return this.$request({
+            service: this.$scope + 'setpaid',
+            data: {
+                INVOICE_ID: id,
+                PAID_DATE: paidDate
             }
-
-            (0, _type_handler.typeOf)(id).mustBe('number');
-
-            paidDate = paidDate || null;
-
-            this.$request({
-                service: this.$scope + 'setpaid',
-                data: {
-                    INVOICE_ID: id,
-                    PAID_DATE: paidDate
-                }
-            }, onResult);
+        }).then(res => {
+            return res.INVOICE_NUMBER;
+        }).catch(err => {
+            throw new _errors.FastbillInvalidRequestError({
+                message: 'Invalid Request to Fastbill.',
+                detail: err
+            });
         });
     }
 
@@ -413,41 +374,34 @@ class Invoice extends _fastbill_api.FastbillAPI {
      * @param {object} message The message data to be sent
      */
     sendbyemail(id, message) {
+        (0, _type_handler.typeOf)(id).mustBe('number');
+        (0, _type_handler.typeOf)(message).mustBe('object');
+        (0, _type_handler.typeOf)(message.recipient).mustBe('object');
+        (0, _type_handler.typeOf)(message.recipient.to).mustBe('string');
 
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
-                resolve(resultset.INVOICE_NUMBER);
+        const recipient = message.recipient;
+        const subject = message.subject;
+        const text = message.text;
+        const receipt_confirmation = message.receipt_confirmation;
+
+        return this.$request({
+            service: this.$scope + 'sendbyemail',
+            data: {
+                INVOICE_ID: id,
+                RECIPIENT: recipient,
+                SUBJECT: subject,
+                MESSAGE: text,
+                RECEIPT_CONFIRMATION: receipt_confirmation
             }
-
-            (0, _type_handler.typeOf)(id).mustBe('number');
-            (0, _type_handler.typeOf)(message).mustBe('object');
-            (0, _type_handler.typeOf)(message.recipient).mustBe('object');
-            (0, _type_handler.typeOf)(message.recipient.to).mustBe('string');
-
-            let recipient = message.recipient;
-            let subject = message.subject;
-            let text = message.text;
-            let receipt_confirmation = message.receipt_confirmation;
-
-            this.$request({
-                service: this.$scope + 'sendbyemail',
-                data: {
-                    INVOICE_ID: id,
-                    RECIPIENT: recipient,
-                    SUBJECT: subject,
-                    MESSAGE: text,
-                    RECEIPT_CONFIRMATION: receipt_confirmation
-                }
-            }, onResult);
+        }).then(res => {
+            return res.INVOICE_NUMBER;
+        }).catch(err => {
+            throw new _errors.FastbillInvalidRequestError({
+                message: 'Invalid Request to Fastbill.',
+                detail: err
+            });
         });
     }
-
 }
 
 function invoiceFactory(credentials) {

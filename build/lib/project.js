@@ -20,13 +20,9 @@ exports.projectFactory = projectFactory;
 
 var _fastbill_api = require('./fastbill_api');
 
-var _errors = require('./utils/errors');
-
-var _errors2 = _interopRequireDefault(_errors);
-
 var _type_handler = require('./utils/type_handler');
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _errors = require('./utils/errors');
 
 /**
  * __init__
@@ -61,27 +57,23 @@ class Project extends _fastbill_api.FastbillAPI {
      *
      */
 
-    get(options) {
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
-                resolve(resultset.PROJECTS);
-            }
+    get() {
+        let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-            options = options || {};
-            (0, _type_handler.typeOf)(options).mustBe('object');
+        (0, _type_handler.typeOf)(options).mustBe('object');
 
-            this.$request({
-                service: this.$scope + 'get',
-                filter: options.filter,
-                limit: options.limit,
-                offset: options.offset
-            }, onResult);
+        return this.$request({
+            service: this.$scope + 'get',
+            filter: options.filter,
+            limit: options.limit,
+            offset: options.offset
+        }).then(res => {
+            return res.PROJECTS;
+        }).catch(err => {
+            throw new _errors.FastbillInvalidRequestError({
+                message: 'Invalid Request to Fastbill.',
+                detail: err
+            });
         });
     }
 
@@ -109,26 +101,21 @@ class Project extends _fastbill_api.FastbillAPI {
      *
      */
 
-    create(project) {
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
+    create() {
+        let project = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-                resolve(resultset.PROJECT_ID);
-            }
+        (0, _type_handler.typeOf)(project).mustBe('object');
 
-            project = project || {};
-            (0, _type_handler.typeOf)(project).mustBe('object');
-
-            this.$request({
-                service: this.$scope + 'create',
-                data: project
-            }, onResult);
+        return this.$request({
+            service: this.$scope + 'create',
+            data: project
+        }).then(res => {
+            return res.PROJECT_ID;
+        }).catch(err => {
+            throw new _errors.FastbillInvalidRequestError({
+                message: 'Invalid Request to Fastbill.',
+                detail: err
+            });
         });
     }
 
@@ -155,26 +142,20 @@ class Project extends _fastbill_api.FastbillAPI {
      */
 
     update(id, modification) {
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
-                resolve(true);
-            }
+        (0, _type_handler.typeOf)(id).mustBe('number');
+        (0, _type_handler.typeOf)(modification).mustBe('object');
+        modification.PROJECT_ID = id;
 
-            (0, _type_handler.typeOf)(id).mustBe('number');
-            (0, _type_handler.typeOf)(modification).mustBe('object');
-
-            modification.PROJECT_ID = id;
-
-            this.$request({
-                service: this.$scope + 'update',
-                data: modification
-            }, onResult);
+        return this.$request({
+            service: this.$scope + 'update',
+            data: modification
+        }).then(() => {
+            return true;
+        }).catch(err => {
+            throw new _errors.FastbillInvalidRequestError({
+                message: 'Invalid Request to Fastbill.',
+                detail: err
+            });
         });
     }
 
@@ -195,23 +176,20 @@ class Project extends _fastbill_api.FastbillAPI {
      */
 
     remove(id) {
-        return new Promise((resolve, reject) => {
-            function onResult(err) {
-                if (err) {
-                    return reject(new _errors.FastbillInvalidRequestError({
-                        message: 'Invalid Request to Fastbill.',
-                        detail: err
-                    }));
-                }
-                resolve(true);
+        (0, _type_handler.typeOf)(id).mustBe('number');
+
+        return this.$request({
+            service: this.$scope + 'delete',
+            data: {
+                PROJECT_ID: id
             }
-
-            (0, _type_handler.typeOf)(id).mustBe('number');
-
-            this.$request({
-                service: this.$scope + 'delete',
-                data: { PROJECT_ID: id }
-            }, onResult);
+        }).then(() => {
+            return true;
+        }).catch(err => {
+            throw new _errors.FastbillInvalidRequestError({
+                message: 'Invalid Request to Fastbill.',
+                detail: err
+            });
         });
     }
 

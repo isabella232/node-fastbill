@@ -14,13 +14,9 @@
 
 
 import {FastbillAPI} from './fastbill_api';
-import {typeOf} from './utils/type_handler';
 
 import {
-    FastbillConnectionError,
-    FastbillInvalidRequestError,
-    FastbilValueError,
-    FastbillTypeError
+    FastbillInvalidRequestError
     } from './utils/errors';
 
 /**
@@ -48,23 +44,15 @@ class Template extends FastbillAPI {
      */
 
     get() {
-        return new Promise((resolve, reject) => {
-            function onResult(err, resultset) {
-                if (err) {
-                    return reject(
-                        new FastbillInvalidRequestError({
-                            message: 'Invalid Request to Fastbill.',
-                            detail: err
-                        })
-                    );
-                }
-                resolve(resultset.TEMPLATES);
-            }
-
-
-            this.$request({
-                service: this.$scope + 'get'
-            }, onResult);
+        return this.$request({
+            service: this.$scope + 'get'
+        })
+        .then(res => res.TEMPLATES)
+        .catch(err => {
+            throw new FastbillInvalidRequestError({
+                message: 'Invalid Request to Fastbill.',
+                detail: err
+            });
         });
     }
 }

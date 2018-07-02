@@ -22,10 +22,6 @@ var _http = require('./utils/http');
 
 var _errors = require('./utils/errors');
 
-var _errors2 = _interopRequireDefault(_errors);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 class FastbillAPI {
     constructor(credentials) {
         let auth = Buffer.from(`${credentials.email}:${credentials.apikey}`).toString('base64');
@@ -40,35 +36,34 @@ class FastbillAPI {
      * Performs a HTTP request against the FastBill API.
      *
      * @param {object} payload The request pattern (e.g. filter, data, service, etc.)
-     * @param {function} callback Error-first callback (err, parsedResultSet)
      *
      */
 
-    $request(payload, callback) {
+    $request(payload) {
         let options = {
             uri: this.$uri,
             headers: this.$headers,
             data: payload && JSON.stringify(payload)
         };
 
-        (0, _http.post)(options).then(function (data) {
+        return (0, _http.post)(options).then(function (json) {
+            let data;
+
             try {
-                data = JSON.parse(data).RESPONSE;
+                data = JSON.parse(json).RESPONSE;
             } catch (e) {
-                return callback(new _errors2.default.FastbillInvalidRequestError({
+                throw new _errors.FastbillInvalidRequestError({
                     message: 'Unable to parse response',
                     detail: e
-                }));
+                });
             }
 
             // Check if the FastBill API responds with errors
             // If so, create an error object with the first available error message.
             if (data.ERRORS) {
-                return callback(new _errors2.default(data.ERRORS[0]));
+                throw new Error(data.ERRORS[0]);
             }
-            callback(null, data);
-        }).catch(function (err) {
-            return callback(err, null);
+            return data;
         });
     }
 }
